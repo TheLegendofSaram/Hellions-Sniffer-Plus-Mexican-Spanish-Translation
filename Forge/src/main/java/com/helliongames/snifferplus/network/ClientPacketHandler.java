@@ -8,13 +8,11 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.sniffer.Sniffer;
-import net.minecraftforge.network.NetworkEvent;
-
-import java.util.function.Supplier;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 public class ClientPacketHandler {
 
-    public static void handleClientboundSnifferScreenOpenPacket(ClientboundSnifferScreenOpenPacket message, Supplier<NetworkEvent.Context> context) {
+    public static void handleClientboundSnifferScreenOpenPacket(ClientboundSnifferScreenOpenPacket message, CustomPayloadEvent.Context context) {
         LocalPlayer player = Minecraft.getInstance().player;
         ClientLevel level = player.clientLevel;
         Entity entity = level.getEntity(message.entityId);

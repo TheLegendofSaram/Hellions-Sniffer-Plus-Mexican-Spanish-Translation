@@ -1,5 +1,6 @@
 package com.helliongames.snifferplus.mixin;
 
+import com.helliongames.snifferplus.Constants;
 import com.helliongames.snifferplus.registration.SnifferPlusBlocks;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
@@ -20,9 +21,13 @@ public class MixinItemColors {
                     ordinal = 5),
             locals = LocalCapture.CAPTURE_FAILHARD)
     private static void snifferplus_registerBlockColorProviders(BlockColors blockColors, CallbackInfoReturnable<ItemColors> cir, ItemColors itemColors) {
-        itemColors.register((itemStack, i) -> {
-            BlockState blockState = ((BlockItem)itemStack.getItem()).getBlock().defaultBlockState();
-            return blockColors.getColor(blockState, null, null, i);
-        }, SnifferPlusBlocks.STONE_PINE_LEAVES.get());
+        try {
+            itemColors.register((itemStack, i) -> {
+                BlockState blockState = ((BlockItem)itemStack.getItem()).getBlock().defaultBlockState();
+                return blockColors.getColor(blockState, null, null, i);
+            }, SnifferPlusBlocks.STONE_PINE_LEAVES.get());
+        } catch (NullPointerException e) {
+            Constants.LOG.error("Stone Pine Leaves not in Registry. Most likely, another mod has failed to load.");
+        }
     }
 }

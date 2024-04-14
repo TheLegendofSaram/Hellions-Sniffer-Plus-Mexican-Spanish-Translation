@@ -3,18 +3,18 @@ package com.helliongames.snifferplus.network;
 import com.helliongames.snifferplus.Constants;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.network.ChannelBuilder;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
-import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.network.SimpleChannel;
 
 public class SnifferPlusNetworkHandler {
-    private static final String PROTOCOL_VERSION = "1";
-    public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation(Constants.MOD_ID, "main"),
-            () -> PROTOCOL_VERSION,
-            PROTOCOL_VERSION::equals,
-            PROTOCOL_VERSION::equals
-    );
+    private static final SimpleChannel INSTANCE = ChannelBuilder.named(
+            new ResourceLocation(Constants.MOD_ID, "main"))
+            .serverAcceptedVersions((status, version) -> true)
+            .clientAcceptedVersions((status, version) -> true)
+            .networkProtocolVersion(1)
+            .simpleChannel();
 
     private static int index;
 
@@ -26,18 +26,18 @@ public class SnifferPlusNetworkHandler {
     }
 
     public static <MSG> void sendToPlayer(MSG message, ServerPlayer player) {
-        INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), message);
+        INSTANCE.send(message, PacketDistributor.PLAYER.with(player));
     }
 
     public static <MSG> void sendToAll(MSG message) {
-        INSTANCE.send(PacketDistributor.ALL.noArg(), message);
+        INSTANCE.send(message, PacketDistributor.ALL.noArg());
     }
 
     public static <MSG> void sendToServer(MSG message) {
-        INSTANCE.sendToServer(message);
+        INSTANCE.send(message, PacketDistributor.SERVER.noArg());
     }
 
     public static <MSG> void sendToClient(MSG message, ServerPlayer serverPlayer) {
-        INSTANCE.send(PacketDistributor.PLAYER.with(() -> serverPlayer), message);
+        INSTANCE.send(message, PacketDistributor.PLAYER.with(serverPlayer));
     }
 }

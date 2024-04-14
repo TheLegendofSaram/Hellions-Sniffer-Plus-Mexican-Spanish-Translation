@@ -20,6 +20,7 @@ import net.minecraft.world.ContainerListener;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.HasCustomInventoryScreen;
 import net.minecraft.world.entity.LivingEntity;
@@ -47,6 +48,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -141,10 +143,10 @@ public abstract class MixinSniffer extends LivingEntity implements SnifferAccess
         cir.setReturnValue(Brain.provider(MEMORY_TYPES, SENSOR_TYPES));
     }
 
-    @Inject(method = "getPassengersRidingOffset", at = @At("HEAD"), cancellable = true)
-    private void snifferplus_getRidingOffsetDigging(CallbackInfoReturnable<Double> cir) {
+    @Inject(method = "getPassengerAttachmentPoint", at = @At("HEAD"), cancellable = true)
+    private void snifferplus_getRidingOffsetDigging(Entity $$0, EntityDimensions $$1, float $$2, CallbackInfoReturnable<Vector3f> cir) {
         if (this.getState().equals(Sniffer.State.DIGGING)) {
-            cir.setReturnValue(1.3D);
+            cir.setReturnValue(new Vector3f(0.0F, 1.3F, 0.0F));
         }
     }
 

@@ -1,6 +1,7 @@
 package com.helliongames.snifferplus.mixin;
 
 import com.helliongames.snifferplus.Constants;
+import com.helliongames.snifferplus.registration.SnifferPlusBiomes;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -26,6 +27,6 @@ public abstract class MixinOverworldBiomeBuilder {
 
     @Inject(method = "addUndergroundBiomes", at = @At("HEAD"))
     private void snifferplus_addTimelessGrotto(Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> consumer, CallbackInfo ci) {
-        this.addUndergroundBiome(consumer, Climate.Parameter.span(0.0F, 1.0F), Climate.Parameter.span(0.6F, 0.9F), this.FULL_RANGE, this.FULL_RANGE, this.FULL_RANGE, 0.0F, ResourceKey.create(Registries.BIOME, new ResourceLocation(Constants.MOD_ID, "timeless_grotto")));
+        this.addUndergroundBiome(consumer, Climate.Parameter.span(0.0F, 1.0F), Climate.Parameter.span(0.6F, 0.9F), this.FULL_RANGE, this.FULL_RANGE, this.FULL_RANGE, 0.0F, SnifferPlusBiomes.TIMELESS_GROTTO);
     }
 }
