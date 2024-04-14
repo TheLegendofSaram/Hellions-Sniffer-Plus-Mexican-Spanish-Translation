@@ -47,10 +47,5 @@ public class SnifferPlusItems {
 
     // Called in the mod initializer / constructor in order to make sure that items are registered
     public static void loadClass() {
-        ComposterBlock.COMPOSTABLES.put(STONE_PINE_LEAVES.get(), 0.3F);
-        ComposterBlock.COMPOSTABLES.put(STONE_PINE_SAPLING.get(), 0.3F);
-        ComposterBlock.COMPOSTABLES.put(FIDDLEFERN.get(), 0.3F);
-        ComposterBlock.COMPOSTABLES.put(TALL_FIDDLEFERN.get(), 0.5F);
-        ComposterBlock.COMPOSTABLES.put(IVY.get(), 0.5F);
     }
 }
